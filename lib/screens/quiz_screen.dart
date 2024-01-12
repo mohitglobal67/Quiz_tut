@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-
 import 'package:flutter/material.dart';
 import 'package:quiz_app_tutorial/models/questionmodel.dart';
 
@@ -11,13 +10,16 @@ import '/widgets/next_button.dart';
 import 'package:http/http.dart' as http;
 
 class QuizScreen extends StatefulWidget {
-  const QuizScreen({super.key});
+  QuizScreen({super.key, required this.id});
+  final String? id;
 
   @override
-  State<QuizScreen> createState() => _QuizScreenState();
+  State<QuizScreen> createState() => _QuizScreenState(id: id);
 }
 
 class _QuizScreenState extends State<QuizScreen> {
+  _QuizScreenState({required this.id});
+  final String? id;
   int? selectedAnswerIndex;
   int questionIndex = 0;
   int score = 0;
@@ -30,8 +32,8 @@ class _QuizScreenState extends State<QuizScreen> {
   bool loading = false;
 
   fetchUsersFromGitHub() async {
-    final response = await http.get(Uri.parse(
-        'http://192.168.1.113:8080/api/v1/user/allquestion/659fc5d767f592b0482e8936'));
+    final response = await http.get(
+        Uri.parse('http://192.168.1.113:8080/api/v1/user/allquestion/$id'));
     var responseJson = json.decode(response.body.toString());
 
     Questionmodel homeRepoModel = Questionmodel.fromJson(responseJson);
@@ -79,7 +81,9 @@ class _QuizScreenState extends State<QuizScreen> {
   @override
   Widget build(BuildContext context) {
     var question;
-    loading == true ? question = alluser[questionIndex] : "";
+    loading == true && alluser.length > 0
+        ? question = alluser[questionIndex]
+        : "";
     bool isLastQuestion = questionIndex == alluser.length - 1;
     return Scaffold(
       appBar: AppBar(
@@ -89,63 +93,66 @@ class _QuizScreenState extends State<QuizScreen> {
           ? Center(child: CircularProgressIndicator())
           : Padding(
               padding: const EdgeInsets.all(24.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  // Text(alluser[0].question.toString()),
+              child: alluser.length > 0
+                  ? Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        // Text(alluser[0].question.toString()),
 
-                  //Text(questionss[0].alluser[0].options[0].a.toString()),
+                        //Text(questionss[0].alluser[0].options[0].a.toString()),
 
-                  // for (int i = 0; i < alluser.length; i++)
-                  Text(
-                    question.question.toString(),
-                    style: const TextStyle(fontSize: 21, color: Colors.amber),
-                    textAlign: TextAlign.center,
-                  ),
-                  Expanded(
-                    child: ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: question.options.length,
-                      itemBuilder: (context, index) {
-                        return GestureDetector(
-                          onTap: selectedAnswerIndex == null
-                              ? () => pickAnswer(index)
-                              : null,
-                          child: AnswerCard(
-                              currentIndex: index,
-                              question: question.options[index],
-                              isSelected: selectedAnswerIndex == index,
-                              selectedAnswerIndex: selectedAnswerIndex,
-                              correctAnswerIndex: question.answerindex
-                              // correctAnswerIndex: alluser[index].answerindex,
-                              ),
-                        );
-                      },
-                    ),
-                  ),
-                  // Next Button
-                  isLastQuestion
-                      ? RectangularButton(
-                          onPressed: () {
-                            Navigator.of(context).pushReplacement(
-                              MaterialPageRoute(
-                                builder: (_) => ResultScreen(
-                                  score: score,
-                                  lengthq: alluser.length,
-                                ),
-                              ),
-                            );
-                          },
-                          label: 'Finish',
-                        )
-                      : RectangularButton(
-                          onPressed: selectedAnswerIndex != null
-                              ? goToNextQuestion
-                              : null,
-                          label: 'Next',
+                        // for (int i = 0; i < alluser.length; i++)
+                        Text(
+                          question.question.toString(),
+                          style: const TextStyle(
+                              fontSize: 21, color: Colors.amber),
+                          textAlign: TextAlign.center,
                         ),
-                ],
-              ),
+                        Expanded(
+                          child: ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: question.options.length,
+                            itemBuilder: (context, index) {
+                              return GestureDetector(
+                                onTap: selectedAnswerIndex == null
+                                    ? () => pickAnswer(index)
+                                    : null,
+                                child: AnswerCard(
+                                    currentIndex: index,
+                                    question: question.options[index],
+                                    isSelected: selectedAnswerIndex == index,
+                                    selectedAnswerIndex: selectedAnswerIndex,
+                                    correctAnswerIndex: question.answerindex
+                                    // correctAnswerIndex: alluser[index].answerindex,
+                                    ),
+                              );
+                            },
+                          ),
+                        ),
+                        // Next Button
+                        isLastQuestion
+                            ? RectangularButton(
+                                onPressed: () {
+                                  Navigator.of(context).pushReplacement(
+                                    MaterialPageRoute(
+                                      builder: (_) => ResultScreen(
+                                        score: score,
+                                        lengthq: alluser.length,
+                                      ),
+                                    ),
+                                  );
+                                },
+                                label: 'Finish',
+                              )
+                            : RectangularButton(
+                                onPressed: selectedAnswerIndex != null
+                                    ? goToNextQuestion
+                                    : null,
+                                label: 'Next',
+                              ),
+                      ],
+                    )
+                  : Center(child: Text("NO Item")),
             ),
     );
   }

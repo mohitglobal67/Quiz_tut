@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:quiz_app_tutorial/screens/homepage.dart';
 
 import '/screens/quiz_screen.dart';
 
@@ -13,9 +14,9 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      themeMode: ThemeMode.dark,
-      theme: ThemeData.dark().copyWith(),
-      home: const QuizScreen(),
+      themeMode: ThemeMode.light,
+      theme: ThemeData.light().copyWith(),
+      home: const HomePage(),
     );
   }
 }
