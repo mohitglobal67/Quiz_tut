@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:quiz_app_tutorial/screens/homepage.dart';
 import 'package:quiz_app_tutorial/screens/quiz_screen.dart';
 
 import '../models/unitmodel.dart';
@@ -48,6 +49,14 @@ class _UnitwiseState extends State<Unitwise> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: InkWell(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const HomePage()),
+              );
+            },
+            child: Icon(Icons.arrow_back)),
         title: Text("nwknln"),
         backgroundColor: Colors.amber,
       ),

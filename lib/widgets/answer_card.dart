@@ -34,32 +34,34 @@ class AnswerCard extends StatelessWidget {
     bool isCorrectAnswer = currentIndex == correctAnswerIndex;
     bool isWrongAnswer = !isCorrectAnswer && isSelected;
     return Padding(
-      padding: const EdgeInsets.symmetric(
-        vertical: 10.0,
+      padding: const EdgeInsets.all(
+        10.0,
       ),
       child: selectedAnswerIndex != null
           // if one option is chosen
           ? Container(
-              height: 70,
-              padding: const EdgeInsets.all(16.0),
+              // height: 70,
+              padding: const EdgeInsets.all(15.0),
               decoration: BoxDecoration(
-                color: Colors.white10,
+                //color: Colors.white10,
                 borderRadius: BorderRadius.circular(10),
                 border: Border.all(
-                  color: isCorrectAnswer
-                      ? Colors.green
-                      : isWrongAnswer
-                          ? Colors.red
-                          : Colors.white24,
-                ),
+                    color: isCorrectAnswer
+                        ? Colors.green
+                        : isWrongAnswer
+                            ? Colors.red
+                            : Colors.black),
               ),
               child: Row(
                 children: [
                   Expanded(
-                    child: Text(
-                      question,
-                      style: const TextStyle(
-                        fontSize: 16,
+                    child: Card(
+                      elevation: 0,
+                      color: Colors.transparent,
+                      child: Text(
+                        question,
+                        style: const TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.w500),
                       ),
                     ),
                   ),
@@ -74,26 +76,22 @@ class AnswerCard extends StatelessWidget {
             )
           // If no option is selected
           : Container(
-              height: 70,
-              padding: const EdgeInsets.all(16.0),
+              //height: 70,
+              padding: const EdgeInsets.all(15.0),
               decoration: BoxDecoration(
-                color: Colors.white10,
+                color: Colors.white,
                 borderRadius: BorderRadius.circular(10),
                 border: Border.all(
-                  color: Colors.white24,
+                  color: Colors.black,
                 ),
               ),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      question,
-                      style: const TextStyle(
-                        fontSize: 16,
-                      ),
-                    ),
-                  ),
-                ],
+              child: Card(
+                elevation: 0,
+                child: Text(
+                  question,
+                  style: const TextStyle(
+                      fontSize: 16, fontWeight: FontWeight.w500),
+                ),
               ),
             ),
     );

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:quiz_app_tutorial/screens/addquestion.dart';
 import 'package:quiz_app_tutorial/screens/homepage.dart';
 
 import '/screens/quiz_screen.dart';
@@ -16,7 +17,7 @@ class MainApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       themeMode: ThemeMode.light,
       theme: ThemeData.light().copyWith(),
-      home: const HomePage(),
+      home: HomePage(),
     );
   }
 }

@@ -15,14 +15,15 @@ class RectangularButton extends StatelessWidget {
     return TextButton(
       onPressed: onPressed,
       child: SizedBox(
-        height: 50,
-        width: double.infinity,
+        height: 70,
+        width: 200,
         child: Card(
-          color: onPressed != null ? Colors.white24 : null,
+          color: onPressed != null ? Color(0xFF183c78) : Color(0xFF183c78),
           child: Center(
             child: Text(
               label,
               style: const TextStyle(
+                color: Colors.white,
                 letterSpacing: 2,
                 fontSize: 25,
                 fontWeight: FontWeight.w400,
