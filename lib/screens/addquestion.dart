@@ -113,6 +113,40 @@ class _AddQuestionState extends State<AddQuestion> {
     super.initState();
   }
 
+  createnoti() async {
+    final response = await http.post(
+      Uri.parse('https://fcm.googleapis.com/fcm/send'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        "Authorization":
+            "Key=AAAA_6tSD64:APA91bHzrxSzpFTw8SK-lervxya0Hof77dt1DeuU8b8jIID-_oUgdi843x110xDXYNPHu_8wNiajuXUWCRHewd4D-Etq4FU1QORB2QSqS47ls3xLyJTU1rqvLDOwaYpEDNLleNYrnzbF"
+      },
+      body: jsonEncode(<String, dynamic>{
+        "to":
+            "fCX92Yi3RSWFbgP46qGSsN:APA91bH4NRsIi6eCo_NqRpN7qB72BqZIUZZvIgYMjYfo8yCrFc0jFXkLktZw4PNQyPLi3STW4VI3Avwnd-m9VK6bydkDs6PUC8y1f7hY_rOjqseJayCFaNAffLsNll4kZ0EpM7k_KIi9",
+        "notification": {
+          "title": "Book Fair Appointment😊😊",
+          "body": ["1", "2"], //"Fair Start 19 January Book Now✋✋",
+          "image":
+              "https://crmbeta.global-opportunities.co.in/fileupload/1025178/banner-fair.png"
+        }
+      }),
+    );
+    setState(() {});
+    debugger();
+    print(response.body);
+    if (response.statusCode == 201) {
+      // If the server did return a 201 CREATED response,
+      // then parse the JSON.
+      debugger();
+      print(response.body.toString());
+      // return
+      //Album.fromJson(jsonDecode(response.body) as Map<String, dynamic>);
+    } else {
+      throw Exception('Failed to create album.');
+    }
+  }
+
   MonthModel? dropdownvalue;
 
   // List of items in our dropdown menu
